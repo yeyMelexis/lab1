@@ -21,10 +21,10 @@ wire  [DATA_WIDTH-1:0]  data_out;
     #2 n_rst = 1'b1;
     
     repeat(10) begin 
+      @(negedge clk);
       data_in = $random();
       Right_in = $random();
-      Left_in = $random();
-       @(posedge clk);
+      Left_in = $random();    
     end
     
     $finish;
