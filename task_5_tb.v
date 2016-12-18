@@ -28,3 +28,4 @@ initial begin
   @(negedge clk); 
   $finish;  
 end
+endmodule
