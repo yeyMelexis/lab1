@@ -18,29 +18,17 @@ module task_13( clk,
                .n_rst(n_rst),
                .out(jcnt_out));
   
-  always @(negedge n_rst or posedge cmpr) begin
+  always @(n_rst or cmpr or data_in) begin
     if (!n_rst) begin
       data_out <= 0;
     end
-    else begin
+    else if (cmpr) begin
       data_out <= data_in;
     end
       
   end
                                                  
   
- assign cmpr = ((jcnt_out[0] ^ cmpr1[0]) &
-               (jcnt_out[1]  ^ cmpr1[1]) &
-               (jcnt_out[2]  ^ cmpr1[2]) &
-               (jcnt_out[3]  ^ cmpr1[3]))|
-               ((jcnt_out[0] ^ cmpr2[0]) &
-               (jcnt_out[1]  ^ cmpr2[1]) &
-               (jcnt_out[2]  ^ cmpr2[2]) &
-               (jcnt_out[3]  ^ cmpr2[3]));
-               
-wire [WIDTH-1:0] a, b;
-assign a = jcnt_out ^ cmpr1; 
-assign b = jcnt_out ^ cmpr2;  
-  
-  
+ assign cmpr = &jcnt_out | &(!jcnt_out);
+                
 endmodule
