@@ -4,9 +4,8 @@ module task_13( clk,
                 data_in, 
                 data_out);
   
-  parameter               WIDTH = 4;
-  parameter cmpr1 = 4'b0000;
-  parameter cmpr2 = 4'b1111;
+  parameter     WIDTH = 4;
+  
   wire      cmpr;
   
   input                   clk, n_rst;
@@ -14,9 +13,10 @@ module task_13( clk,
   output wire [WIDTH-1:0] jcnt_out;
   output reg  [WIDTH-1:0] data_out;
   
- task_12 jnct( .clk(clk),
-               .n_rst(n_rst),
-               .out(jcnt_out));
+ task_12 #(.WIDTH(WIDTH)) jnct( .clk(clk),
+							   .n_rst(n_rst),
+							   .out(jcnt_out)
+							   );
   
   always @(n_rst or cmpr or data_in) begin
     if (!n_rst) begin
@@ -27,8 +27,7 @@ module task_13( clk,
     end
       
   end
-                                                 
-  
+                                                   
  assign cmpr = &jcnt_out | &(!jcnt_out);
                 
 endmodule

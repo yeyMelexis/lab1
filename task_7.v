@@ -20,12 +20,10 @@ always @(posedge clk or negedge n_rst) begin
     case({Right_in, Left_in})
       2'b00: 
         data_out <= data_in;
-      2'b11: 
-        data_out <= data_in;
       2'b01:
-        data_out <= {data_out[DATA_WIDTH-2:0], data_out[DATA_WIDTH-1]};
+        data_out <= {data_out[DATA_WIDTH-2:0], Left_in};
       2'b10:
-        data_out <= {data_out[0], data_out[DATA_WIDTH-1:1]};       
+        data_out <= {Right_in, data_out[DATA_WIDTH-1:1]};       
     endcase
   end
   
@@ -33,3 +31,4 @@ always @(posedge clk or negedge n_rst) begin
 end
               
 endmodule
+

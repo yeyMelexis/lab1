@@ -2,21 +2,30 @@ module task_12_tb();
   parameter               WIDTH = 4;
   reg                   clk, n_rst;
   wire   [WIDTH-1:0] out;
-  
-  task_12 task_12_1(
-                    .clk(clk),
-                    .n_rst(n_rst),
-                    .out(out));
+  parameter PERIOD = 4;
+	
+  task_12 #(.WIDTH(WIDTH)) task_12_1(
+									.clk(clk),
+									.n_rst(n_rst),
+									.out(out)
+									);
                     
   initial begin
     clk = 0;
-    forever #1 clk = ~clk;
+    forever #(PERIOD/2) clk = ~clk;
   end
   
   initial begin
-       n_rst = 1'b1;
-    #1 n_rst = 1'b0;
-    #2 n_rst = 1'b1;
+       //RESET generation
+    n_rst = 1'b1;
+    repeat(2) @(posedge clk); 
+    n_rst = 1'b0;
+    
+    repeat(2) @(posedge clk); 
+    n_rst = 1'b0;
+     
+    n_rst = 1'b1;
+    //////////////////
     
     repeat(10) begin
       @(posedge clk);
